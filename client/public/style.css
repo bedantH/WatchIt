@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* scroll bar */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #4C4C4C;
+}
+
+button:focus{
+    outline: none;
+    cursor: pointer;
+}
+
+input:focus{
+    outline: none;
+}
+
+.App{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 5%;
+}
+
+.searchlayer{
+    margin-top: 80px;
+    text-align: center;
+}
+
+.searchlayer input{
+    border: none;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
+-webkit-box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
+-moz-box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
+    margin-bottom: 15px;
+}
+
+.searchlayer input:focus{
+    outline: none;
+}
+
+.searchlayer a{
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #D80000;
+    color: white;
+    padding: 10px 20px 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    box-shadow: 11px 3px 46px 1px rgba(16,16,16,0.75);
+-webkit-box-shadow: 11px 3px 46px 1px rgba(16,16,16,0.75);
+-moz-box-shadow: 11px 3px 46px 1px rgba(16,16,16,0.75);
+    text-decoration: none;
+}
+
+.searchlayer a:focus{
+    box-shadow: none;
+    outline: none;
+}
+
+.logo-display{
+    margin-top: 100px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.logo-img{
+    width: 15%;
+}
+
+.footer{
+    margin-top: 100px;
+    text-align: center;
+}
+
+.iframe-embedded{
+    display: block;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.playBtn, .pauseBtn, .mute{
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    margin: 0px 7px 0px 7px;
+}
+
+.playBtn svg, .pauseBtn svg, .mute svg{
+    padding: 2px 2px 0px 2px;
+}
+
+.controlPanels{
+    display: flex;
+}
+
+.timeline{
+    position: relative;
+    margin: auto 0px auto 10px;
+    height: 50px;
+}
+
+.pointer{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid white;
+    top: 12.15px;
+}
+
+.timeline-bar{
+    cursor: pointer;
+    margin-top: 18px;
+    width: 500px;
+    height: 3px;
+    background-color: white;
+}
+
+/* ---------------------- */
+
+.chat-layout{
+    height: 70vh;
+    padding: 25px;
+}
+
+.chat-area{
+    position: relative;
+    background-color: #EAEAEA;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.chat-infobar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #4CB9FF;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.chat-infobar p{
+    margin: 0;
+    margin-left: 20px;
+    color: white;
+    font-size: 1rem;
+}
+
+.displayChatUser{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.displayChatAno{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.displayChatUser .name, .displayChatAno .name{
+    margin: 25px 0px 25px 0px;
+    font-size: 12px;
+}
+
+.messages{
+    height: 70%;
+}
+
+.chat-display, .chat-display-ano{
+    background-color: #57C3FF;
+    color: white;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 10px;
+    border-radius: 10px;
+    opacity: 0.75;
+}
+
+.chat-display-ano{
+    background-color: #CBCBCB;
+    color: black;
+    opacity: 1;
+}
+
+.chat-display p, .chat-display-ano p{
+    margin: 0;
+}
+
+.chat-input{
+    position: absolute;
+    bottom: 10px;
+    padding: 0px 30px 10px 30px;
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.chat-input input{
+    border-radius: 10px;
+    border: none;
+    padding: 10px 10px 10px 20px;
+    width: 90%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.chat-input button{
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    margin-left: 10px;
+    background-color: #4CB9FF;
+}
+
+/* ----------------------- */
+.currently-online p{
+    font-size: 20px;
+}
+
+.username-card{
+    display: flex;
+    background-color: wheat;
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.username-card span{
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #51FF00;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.username-card p{
+    margin: 0;
+    font-size: 16px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .App{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}
