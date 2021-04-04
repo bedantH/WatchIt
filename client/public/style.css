@@ -13,7 +13,9 @@
 
 body{
     font-family: 'Poppins', sans-serif;
-    background-color: #4C4C4C;
+    background-color: #FF8686;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 button:focus{
@@ -31,9 +33,42 @@ input:focus{
     margin-top: 5%;
 }
 
+.grid-layout{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.box-design{
+    height: 100vh;
+}
+
+.box-design img{
+    height: 100vh;
+}
+
+.headphones-design{
+    height: 100vh;
+}
+
+.headphones-design img{
+    position: absolute;
+    width: 70%;
+    top: 10%;
+-webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.homeLayout{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
 .searchlayer{
     margin-top: 80px;
     text-align: center;
+    width: 100vw;
 }
 
 .searchlayer input{
@@ -44,10 +79,8 @@ input:focus{
     width: 40%;
     padding: 10px;
     font-family: 'Poppins', sans-serif;
-    box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
--webkit-box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
--moz-box-shadow: 29px 4px 46px 1px rgba(16,16,16,0.75);
     margin-bottom: 15px;
+    background-color: #FFBFBF;
 }
 
 .searchlayer input:focus{
@@ -61,7 +94,7 @@ input:focus{
     background-color: #D80000;
     color: white;
     padding: 10px 20px 10px 20px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Press Start 2P', cursive;
     font-size: 0.75rem;
     box-shadow: 11px 3px 46px 1px rgba(16,16,16,0.75);
 -webkit-box-shadow: 11px 3px 46px 1px rgba(16,16,16,0.75);
@@ -78,6 +111,10 @@ input:focus{
     margin-top: 100px;
     text-align: center;
     font-family: 'Press Start 2P', cursive;
+}
+
+.logo-display h1{
+    font-size: 2rem;
 }
 
 .logo-img{
@@ -264,5 +301,9 @@ input:focus{
     .App{
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
+    }
+
+    .headphones-design{
+        display: none;
     }
 }
