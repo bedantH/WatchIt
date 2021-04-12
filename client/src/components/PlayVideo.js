@@ -15,7 +15,6 @@ import { io } from "socket.io-client";
 import Chat from './Chat';
 import UsersList from './UsersList';
 
-
 let socket;
 
 function PlayVideo() {
@@ -30,14 +29,18 @@ function PlayVideo() {
     const [anotherCurrentUser, setAnotherUser] = useState([]);
     const location = useLocation();
 
+    const playAudio = () => {
+        var audio = document.querySelector('#audio');
+        audio.play();
+    }
+
     useEffect(() => {
         const { name, roomId, videoId } = queryString.parse(location.search);
         setId(videoId);
         setName(name);
         setRoomName(roomId);
-        console.log(name);
 
-        socket = io('https://youtubeapi-watchit.herokuapp.com');
+        socket = io('http://localhost:5000');
         socket.emit('join', name, roomId, videoId);
         console.log(socket);
     }, []);
@@ -45,6 +48,11 @@ function PlayVideo() {
     useEffect(() => {
         socket.on('message', (message) => {
             setMessages(messages => [...messages, message]);
+            console.log(message.user);
+            console.log(name);
+            if (message.user !== name && name !== undefined) {
+                playAudio();
+            }
         });
 
         socket.on('roomData', ({ users }) => {
@@ -52,15 +60,17 @@ function PlayVideo() {
         });
     }, []);
 
+
     // Youtube Embedded Player options
     const opts = {
         height: '390',
         width: '640',
         playerVars: {
             autoplay: 1,
-            origin: 'https://watch-it-youtube.netlify.app'
+            origin: 'http://localhost:3000'
         },
     };
+
 
     const onReady = (e) => {
         setPlayer(e.target);
@@ -164,6 +174,9 @@ function PlayVideo() {
 
     return (
         <main className="App">
+            <audio id="audio">
+                <source src="./message.mp3" />
+            </audio>
             <section className="iframe-embedded">
                 <YouTube videoId={id} opts={opts} onReady={onReady} />
                 <div className="controlPanels">
