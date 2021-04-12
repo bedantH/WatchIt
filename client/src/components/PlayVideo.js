@@ -40,7 +40,7 @@ function PlayVideo() {
         setName(name);
         setRoomName(roomId);
 
-        socket = io('http://localhost:5000');
+        socket = io('https://youtubeapi-watchit.herokuapp.com');
         socket.emit('join', name, roomId, videoId);
         console.log(socket);
     }, []);
@@ -67,7 +67,7 @@ function PlayVideo() {
         width: '640',
         playerVars: {
             autoplay: 1,
-            origin: 'http://localhost:3000'
+            origin: 'https://watch-it-youtube.netlify.app'
         },
     };
 

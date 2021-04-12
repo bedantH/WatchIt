@@ -10,7 +10,7 @@ const server = http.createServer(app);
 const socketio = require('socket.io');
 const io = socketio(server, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: "https://watch-it-youtube.netlify.app",
 		methods: ["GET", "POST"],
 		allowedHeaders: ["Access-Control-Allow-Origin"],
 	}
