@@ -1,9 +1,11 @@
+// import React
 import React from "react";
 
 // import components
 import LogoHeader from "./LogoHeader";
 import SearchLayer from "./SearchLayer";
 
+// Home component
 function Home(props) {
     return (
         <main>
@@ -23,4 +25,5 @@ function Home(props) {
     );
 }
 
+// export component
 export default Home;

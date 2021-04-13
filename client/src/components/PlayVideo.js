@@ -1,13 +1,9 @@
+// import packages / components 
+
 import React, { useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { useLocation } from 'react-router-dom';
 import queryString from "query-string";
 import $ from 'jquery';
@@ -15,50 +11,52 @@ import { io } from "socket.io-client";
 import Chat from './Chat';
 import UsersList from './UsersList';
 
+// Define socket
 let socket;
 
+// Component function
 function PlayVideo() {
     const [player, setPlayer] = useState();
     const [currentTime, setTime] = useState();
     const [id, setId] = useState();
-    const [name, setName] = useState();
+    const [username, setName] = useState();
     const [roomName, setRoomName] = useState();
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState();
     const [users, setUsers] = useState([]);
-    const [anotherCurrentUser, setAnotherUser] = useState([]);
     const location = useLocation();
 
-    const playAudio = () => {
-        var audio = document.querySelector('#audio');
-        audio.play();
-    }
-
+    // connecting to socket
+    // setting up messages (admin and user both)
     useEffect(() => {
         const { name, roomId, videoId } = queryString.parse(location.search);
         setId(videoId);
         setName(name);
         setRoomName(roomId);
 
-        socket = io('https://youtubeapi-watchit.herokuapp.com');
-        socket.emit('join', name, roomId, videoId);
-        console.log(socket);
-    }, []);
+        // establishing connection with socket.io
+        socket = io('http://localhost:5000');
 
-    useEffect(() => {
+        // join the room entered by the user
+        socket.emit('join', name, roomId, videoId);
+
+        // get all the messages
         socket.on('message', (message) => {
+            // add new message to the messages array
             setMessages(messages => [...messages, message]);
-            console.log(message.user);
-            console.log(name);
+
+            // play the notification tone
             if (message.user !== name && name !== undefined) {
-                playAudio();
+                var audioPlay = new Audio('message.mp3');
+                audioPlay.play();
             }
         });
 
+        // get all the users present in a particular room
         socket.on('roomData', ({ users }) => {
             setUsers(users);
         });
-    }, []);
+    }, [location.search]);
 
 
     // Youtube Embedded Player options
@@ -67,13 +65,16 @@ function PlayVideo() {
         width: '640',
         playerVars: {
             autoplay: 1,
-            origin: 'https://watch-it-youtube.netlify.app'
+            origin: 'http://localhost:3000'
         },
     };
 
-
+    // set the state of the player to pause when it is loaded completely
     const onReady = (e) => {
+        // setting the player variable to control the player without using event.target everytime
         setPlayer(e.target);
+
+        // emit control events
         socket.emit('event', 'startVideo');
         socket.on('event', (msg) => {
             if (msg === 'startVideo') {
@@ -87,8 +88,8 @@ function PlayVideo() {
         }, 200);
     }
 
+    // play video event
     const playVideo = () => {
-        console.log(socket)
         socket.emit('event', 'play');
         socket.on('event', (msg) => {
             if (msg === 'play') {
@@ -97,6 +98,7 @@ function PlayVideo() {
         });
     }
 
+    // pause video event
     const pauseVideo = () => {
         socket.emit('event', 'pause');
         socket.on('event', (msg) => {
@@ -106,6 +108,7 @@ function PlayVideo() {
         });
     }
 
+    // forward and backward timeline change event
     const clickTimeLine = (event) => {
         const timeline = $(".timeline").offset();
         var seekToSecs = (event.pageX - timeline.left) / 500 * player.getDuration();
@@ -115,63 +118,25 @@ function PlayVideo() {
         })
     };
 
+    // send message event
     const sendMessage = (event) => {
         event.preventDefault();
         setMessage('');
 
+        // emit message event and send it to the API
         if (message) {
             socket.emit('sendMessage', message);
         }
     }
 
+    // leave room event
     useEffect(() => {
         return () => {
             socket.emit('deleteUser');
         }
     }, []);
 
-    function AlertDialog() {
-        const [open, setOpen] = React.useState(false);
-
-        const handleClickOpen = () => {
-            setOpen(true);
-        };
-
-        const handleClose = () => {
-            setOpen(false);
-        };
-
-        return (
-            <div>
-                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                    Open alert dialog
-            </Button>
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Let Google help apps determine location. This means sending anonymous location data to
-                            Google, even when no apps are running.
-                </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Disagree
-                </Button>
-                        <Button onClick={handleClose} color="primary" autoFocus>
-                            Agree
-                </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        );
-    }
-
+    // return component code
     return (
         <main className="App">
             <audio id="audio">
@@ -190,10 +155,11 @@ function PlayVideo() {
                     </div>
                 </div>
             </section>
-            <Chat messages={messages} message={message} roomName={roomName} currentUser={name} sendMessage={sendMessage} setMessage={setMessage} />
+            <Chat messages={messages} message={message} roomName={roomName} currentUser={username} sendMessage={sendMessage} setMessage={setMessage} />
             <UsersList users={users} />
         </main>
     );
 }
 
+// export component
 export default PlayVideo;

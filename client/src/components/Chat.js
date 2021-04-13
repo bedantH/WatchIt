@@ -1,9 +1,14 @@
+// import react
 import React from 'react';
+
 import SendIcon from '@material-ui/icons/Send';
 import ScrollToBottom from 'react-scroll-to-bottom';
+
+// import components
 import InfoBar from './InfoBar';
 import Message from "./Message";
 
+// export component
 export default function Chat(props) {
 
     return (

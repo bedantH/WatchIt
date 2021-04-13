@@ -1,18 +1,22 @@
+// import react
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+// import components
 import Home from "./Home";
 import PlayVideo from "./PlayVideo";
 
+// App component
 function App() {
 
+    // id of the youtube video 
     const [youtubevideoID, setVideoId] = useState('');
 
     const globalVideoId = (videoId) => {
         setVideoId(videoId)
-
-        console.log(youtubevideoID);
     }
 
+    // return component code
     return (
         <Router>
             <Switch>
@@ -27,4 +31,5 @@ function App() {
     );
 }
 
+// export component
 export default App;

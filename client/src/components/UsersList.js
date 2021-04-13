@@ -1,6 +1,10 @@
+// component displays all the users present in a lobby / room
+// import react
 import React from 'react'
 
+// component function
 function UsersList(props) {
+    // return component
     return (
         <footer className="currently-online">
             <p>Currently online: </p>

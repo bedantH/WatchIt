@@ -10,7 +10,7 @@ const server = http.createServer(app);
 const socketio = require('socket.io');
 const io = socketio(server, {
 	cors: {
-		origin: "https://watch-it-youtube.netlify.app",
+		origin: "http://localhost:3000",
 		methods: ["GET", "POST"],
 		allowedHeaders: ["Access-Control-Allow-Origin"],
 	}
@@ -31,23 +31,30 @@ io.on("connection", (socket) => {
 			return error;
 		}
 
+		// let the user join the room with the ID/ name specified by the user
 		socket.join(room);
+
+		// emit admin messages
 		socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}` });
 		socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
 		socket.emit('message', { user: 'admin', text: "1. Everyone click play at the same time" });
 		socket.emit('message', { user: 'admin', text: "2. Everyone click pause at the same time" });
 		socket.emit('message', { user: 'admin', text: "And you are good to go in sync now" });
 
+		// emit the users present in a certain lobby / room
 		io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
+		// check and return a user who is watching the same video as the current user.
+		// will be used later
 		let conUser = getConcurrentUser(user.videoLink, user.name);
-		// console.log(conUser);
 	});
 
+	// send message event (receives message and transmits it to the other users present in the room)
 	socket.on('sendMessage', (message) => {
+		// get user using the users' socket id
 		const user = getUser(socket.id);
 
-		// console.log({ message, user });
+		// send message to other users in the room
 		io.to(user.room).emit('message', { user: user.name, text: message });
 	});
 
@@ -70,9 +77,11 @@ io.on("connection", (socket) => {
 		io.to(user.room).emit('seektoEvent', time);
 	});
 
+	// delete user when the socket or app is disconnected
 	socket.on('deleteUser', () => {
 		const user = removeUser(socket.id);
 
+		// emit admin message to let others know that someone left
 		if (user) {
 			io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
 			io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
@@ -87,6 +96,7 @@ io.on("connection", (socket) => {
 			io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
 			io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 		}
+		console.log('user disconnected');
 	});
 });
 
